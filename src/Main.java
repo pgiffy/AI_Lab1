@@ -28,7 +28,7 @@ public class Main {
 		
 		Scanner scan;
 		String fileOut = "output.txt";
-		String fileName = "medium_maze.txt";
+		String fileName = "open_maze.txt";
 		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
@@ -80,33 +80,35 @@ public class Main {
 				int currentX = current.getX();
 				int currentY = current.getY();
 				if((totalMaze[currentX+1][currentY].getContent() == ' ' || totalMaze[currentX+1][currentY].getContent() == '*') && !current.getParents().contains(totalMaze[currentX+1][currentY])) {//right spot
-					toCheck.add(totalMaze[currentX+1][currentY]);
+					if(!toCheck.contains(totalMaze[currentX+1][currentY])) {toCheck.add(totalMaze[currentX+1][currentY]);}
 					Edge e = new Edge(current, totalMaze[currentX+1][currentY]);
 					totalMaze[currentX+1][currentY].addParent(current);
 					maze.addEdge(e);
 					maze.addNode(totalMaze[currentX+1][currentY]);
 				}
+				if((totalMaze[currentX][currentY+1].getContent() == ' ' || totalMaze[currentX][currentY+1].getContent() == '*') && !current.getParents().contains(totalMaze[currentX][currentY+1])) {//bottom spot
+					if(!toCheck.contains(totalMaze[currentX][currentY+1])) {toCheck.add(totalMaze[currentX][currentY+1]);}
+					Edge e = new Edge(current, totalMaze[currentX][currentY+1]);
+					totalMaze[currentX][currentY-1].addParent(current);
+					//totalMaze[currentX][currentY+1].addAllParents(current.getParents());
+					maze.addEdge(e);
+					maze.addNode(totalMaze[currentX][currentY+1]);
+				}
 				if((totalMaze[currentX-1][currentY].getContent() == ' ' || totalMaze[currentX-1][currentY].getContent() == '*') && !current.getParents().contains(totalMaze[currentX-1][currentY])) {//left spot
-					toCheck.add(totalMaze[currentX-1][currentY]);
+					if(!toCheck.contains(totalMaze[currentX-1][currentY])) {toCheck.add(totalMaze[currentX-1][currentY]);}
 					Edge e = new Edge(current, totalMaze[currentX-1][currentY]);
 					totalMaze[currentX-1][currentY].addParent(current);
 					maze.addEdge(e);
 					maze.addNode(totalMaze[currentX-1][currentY]);
 				}
 				if((totalMaze[currentX][currentY-1].getContent() == ' ' || totalMaze[currentX][currentY-1].getContent() == '*') && !current.getParents().contains(totalMaze[currentX][currentY-1])) {//top spot
-					toCheck.add(totalMaze[currentX][currentY-1]);
+					if(!toCheck.contains(totalMaze[currentX][currentY-1])) {toCheck.add(totalMaze[currentX][currentY-1]);}
 					Edge e = new Edge(current, totalMaze[currentX][currentY-1]);
 					totalMaze[currentX][currentY-1].addParent(current);
 					maze.addEdge(e);
 					maze.addNode(totalMaze[currentX][currentY-1]);
 				}
-				if((totalMaze[currentX][currentY+1].getContent() == ' ' || totalMaze[currentX][currentY+1].getContent() == '*') && !current.getParents().contains(totalMaze[currentX][currentY+1])) {//bottom spot
-					toCheck.add(totalMaze[currentX][currentY+1]);
-					Edge e = new Edge(current, totalMaze[currentX][currentY+1]);
-					totalMaze[currentX][currentY-1].addParent(current);
-					maze.addEdge(e);
-					maze.addNode(totalMaze[currentX][currentY+1]);
-				}
+				
 				
 			}
 			

@@ -19,6 +19,7 @@ public class Node {
     public void setContent(char newContent) {content = newContent;}
     
     public void addParent(Node parent) { parents.add(parent); } 
+    public void addAllParents(ArrayList<Node> newParents) {parents.addAll(newParents);}
     public ArrayList<Node> getParents(){ return parents; } 
     
     public void addOutgoingEdge(Edge newEdge){ outgoingEdges.add(newEdge); }
