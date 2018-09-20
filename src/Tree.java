@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class Tree {
-	Node parent;
 	ArrayList<Node> nodes = new ArrayList<>();
 	ArrayList<Edge> edges = new ArrayList<>();
 	
@@ -10,23 +9,29 @@ public class Tree {
         edges = new ArrayList<>();
     }
 	
-	public void addNode() {
-        nodes.add(new Node(nodes.size()));
+	public void addNode(Node n) {
+        nodes.add(n);
     }
 
     public void addEdge(Edge e) {
         Node fromNode = e.getFromNode();
         Node toNode = e.getToNode();
         edges.add(e);
-        fromNode.addEdge(e);
+        fromNode.addOutgoingEdge(e);
         toNode.addIncomingEdge(e);
     }
 
-    public void addEdge(Node fromNode, Node toNode, int weight) {
-        Edge newEdge = new Edge(fromNode, toNode, weight);
+    public void addEdge(Node fromNode, Node toNode) {
+        Edge newEdge = new Edge(fromNode, toNode);
         edges.add(newEdge);
-        fromNode.addEdge(newEdge);
+        fromNode.addOutgoingEdge(newEdge);
         toNode.addIncomingEdge(newEdge);
     }
+    
+    public Node getNode(int id) { return nodes.get(id); }
+    public ArrayList<Node> getNodes(){ return nodes; }
+    public int numNodes() { return nodes.size(); }
+    
+    
 	
 }
