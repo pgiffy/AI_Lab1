@@ -28,7 +28,7 @@ public class Main {
 		
 		Scanner scan;
 		String fileOut = "output.txt";
-		String fileName = "test_maze.txt";
+		String fileName = "open_maze.txt";
 		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
@@ -53,7 +53,6 @@ public class Main {
 				String currentLine = scan.nextLine();
 				perLineIter = 0;
 				for(char con : currentLine.toCharArray()) {
-					System.out.println(idIter);
 					totalMaze[perLineIter][lineIter] = new Node(idIter, con, perLineIter, lineIter);
 					idIter++;
 					perLineIter++;
@@ -73,11 +72,12 @@ public class Main {
 					}
 				}
 			}
-			Queue<Node> toCheck = new LinkedList<>();
+			//Queue<Node> toCheck = new LinkedList<>();
+			Stack<Node> toCheck = new Stack<>();
 			maze.addNode(totalMaze[startX][startY]);
 			toCheck.add(totalMaze[startX][startY]);
 			while(!toCheck.isEmpty()) {
-				Node current = toCheck.remove();
+				Node current = toCheck.pop();
 				int currentX = current.getX();
 				int currentY = current.getY();
 				if((totalMaze[currentX+1][currentY].getContent() == ' ' || totalMaze[currentX+1][currentY].getContent() == '*') && !current.getParents().contains(totalMaze[currentX+1][currentY])) {//right spot
@@ -124,11 +124,10 @@ public class Main {
 			}
 			
 			ArrayList<Node> solve = maze.depthFirst(start);
-			System.out.println(solve);
 			for(Node n : solve) {
 				n.setContent('.');
 			}
-		
+
 			//for easy viewing sake
 			//later change this to out.prints to put to output file
 			for(int i = 0; i < yLength; i++) {

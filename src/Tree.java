@@ -66,5 +66,29 @@ public class Tree {
     	return null;
     }
     
+    
+    public ArrayList<Node> greedyFirst(Node start) {
+    	PriorityQueue<Node> pq = new PriorityQueue<>();
+    	pq.add(start);
+    	Node current;
+    	while(!pq.isEmpty()) {
+    		current = pq.poll();
+    		if(current.visited == true) {
+    			continue;
+    		}
+    		if(current.getContent() == '*') {
+    			return current.tail;
+    		}
+    		current.visited = true;
+    		current.tail.add(current);
+    		for(Edge e : current.getOutgoingEdges()) {
+    			
+    			e.getToNode().tail.addAll(removeDuplicates(current.tail));
+    			pq.add(e.getToNode());
+    		}
+    		
+    	}
+    	return null;
+    }
 	
 }
