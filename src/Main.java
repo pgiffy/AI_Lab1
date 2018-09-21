@@ -28,7 +28,7 @@ public class Main {
 		
 		Scanner scan;
 		String fileOut = "output.txt";
-		String fileName = "medium_maze.txt";
+		String fileName = "test_maze.txt";
 		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
@@ -53,6 +53,7 @@ public class Main {
 				String currentLine = scan.nextLine();
 				perLineIter = 0;
 				for(char con : currentLine.toCharArray()) {
+					System.out.println(idIter);
 					totalMaze[perLineIter][lineIter] = new Node(idIter, con, perLineIter, lineIter);
 					idIter++;
 					perLineIter++;
@@ -115,8 +116,18 @@ public class Main {
 //			for(Node n : maze.getNodes()) {
 //				n.setContent('.');
 //			}
+			Node start = null;
+			for(int i = 0; i < yLength; i++) {
+				for(int j = 0; j < xLength; j++) {
+					if(totalMaze[j][i].getContent() == 'P') { start = totalMaze[j][i]; }
+				}
+			}
 			
-			
+			ArrayList<Node> solve = maze.depthFirst(start);
+			System.out.println(solve);
+			for(Node n : solve) {
+				n.setContent('.');
+			}
 		
 			//for easy viewing sake
 			//later change this to out.prints to put to output file

@@ -33,10 +33,37 @@ public class Tree {
     public int numNodes() { return nodes.size(); }
     public ArrayList<Edge> getEdges(){return edges;}
     
-    
-    
-    public void breadthFirst() {
+    public ArrayList<Node> removeDuplicates(ArrayList<Node> remove){
+    	Set<Node> temp = new HashSet<>();
+    	temp.addAll(remove);
+    	remove.clear();
+    	remove.addAll(temp);
+    	return remove;
     	
+    }
+    
+    public ArrayList<Node> depthFirst(Node start) {
+    	Stack<Node> stack = new Stack<>();
+    	stack.add(start);
+    	Node current;
+    	while(!stack.isEmpty()) {
+    		current = stack.pop();
+    		if(current.visited == true) {
+    			continue;
+    		}
+    		if(current.getContent() == '*') {
+    			return current.tail;
+    		}
+    		current.visited = true;
+    		current.tail.add(current);
+    		for(Edge e : current.getOutgoingEdges()) {
+    			
+    			e.getToNode().tail.addAll(removeDuplicates(current.tail));
+    			stack.add(e.getToNode());
+    		}
+    		
+    	}
+    	return null;
     }
     
 	

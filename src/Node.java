@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Node {
 	public boolean visited = false;
+	public ArrayList<Node> tail = new ArrayList<>();
     private ArrayList<Edge> outgoingEdges = new ArrayList<>();
     private ArrayList<Edge> incomingEdges = new ArrayList<>();
     private int id;
