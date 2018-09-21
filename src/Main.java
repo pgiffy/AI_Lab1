@@ -28,7 +28,7 @@ public class Main {
 		
 		Scanner scan;
 		String fileOut = "output.txt";
-		String fileName = "open_maze.txt";
+		String fileName = "medium_maze.txt";
 		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
@@ -116,6 +116,8 @@ public class Main {
 //				n.setContent('.');
 //			}
 			
+			
+		
 			//for easy viewing sake
 			//later change this to out.prints to put to output file
 			for(int i = 0; i < yLength; i++) {

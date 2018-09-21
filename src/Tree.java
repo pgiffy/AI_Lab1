@@ -31,7 +31,13 @@ public class Tree {
     public Node getNode(int id) { return nodes.get(id); }
     public ArrayList<Node> getNodes(){ return nodes; }
     public int numNodes() { return nodes.size(); }
+    public ArrayList<Edge> getEdges(){return edges;}
     
+    
+    
+    public void breadthFirst() {
+    	
+    }
     
 	
 }

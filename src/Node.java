@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Node {
+	public boolean visited = false;
     private ArrayList<Edge> outgoingEdges = new ArrayList<>();
     private ArrayList<Edge> incomingEdges = new ArrayList<>();
     private int id;
