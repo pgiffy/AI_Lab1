@@ -66,9 +66,9 @@ public class Tree {
     	return null;
     }
     
-    
+    MyComparator compare = new MyComparator();
     public ArrayList<Node> greedyFirst(Node start) {
-    	PriorityQueue<Node> pq = new PriorityQueue<>();
+    	PriorityQueue<Node> pq = new PriorityQueue<>(10, compare);
     	pq.add(start);
     	Node current;
     	while(!pq.isEmpty()) {
@@ -90,5 +90,13 @@ public class Tree {
     	}
     	return null;
     }
+    
 	
+}
+class MyComparator implements Comparator<Node>{
+	public int compare(Node a, Node b) {
+		Integer atail = a.tail.size();
+		Integer btail = b.tail.size();
+		return atail.compareTo(btail);
+	}
 }
