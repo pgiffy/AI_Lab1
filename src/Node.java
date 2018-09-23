@@ -10,6 +10,7 @@ public class Node {
     private int Y;
     private char content;
     private ArrayList<Node> parents = new ArrayList<>();
+    private Node end;
 
     public Node(int nodeId, char inside, int xSpot, int ySpot){ 
     	id = nodeId;
@@ -17,7 +18,13 @@ public class Node {
     	X = xSpot;
     	Y = ySpot;
     }
-
+    
+    public int getManhattan() {
+    		return Math.abs(X - end.getX()) + Math.abs(Y - end.getY());
+    	
+    }
+    public Node getEnd() {return end;}
+    public void setEnd(Node e) {end = e;}
     public void setContent(char newContent) {content = newContent;}
     
     public void addParent(Node parent) { parents.add(parent); } 

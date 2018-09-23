@@ -68,11 +68,13 @@ public class Tree {
     
     MyComparator compare = new MyComparator();
     public ArrayList<Node> greedyFirst(Node start) {
-    	PriorityQueue<Node> pq = new PriorityQueue<>(10, compare);
+    	PriorityQueue<Node> pq = new PriorityQueue<>(compare);
     	pq.add(start);
     	Node current;
     	while(!pq.isEmpty()) {
+    		System.out.println();
     		current = pq.poll();
+    		System.out.println(current.getManhattan() + "\n");
     		if(current.visited == true) {
     			continue;
     		}
@@ -95,8 +97,8 @@ public class Tree {
 }
 class MyComparator implements Comparator<Node>{
 	public int compare(Node a, Node b) {
-		Integer atail = a.tail.size();
-		Integer btail = b.tail.size();
+		Integer atail = a.getManhattan();
+		Integer btail = b.getManhattan();
 		return atail.compareTo(btail);
 	}
 }
