@@ -15,14 +15,15 @@ public class Main {
 		 * 
 		 * totalMaze is the original grid of maze nodes and maze is the tree
 		 * 
-		 * I started the path class but I didn't write a search yet so I think it is probably missing little things
-		 * I added the txt files so you can just change fileName to change the graph rather than file path
+		 * A* = Done
+		 * Greedy First = Done
+		 * Depth First = Done
+		 * Breadth First = Not Done
+		 *    A spot in the tree class has been made for breadth first search
+		 *    
+		 * Report = Not Done
 		 * 
-		 * I'm pretty sure this base stuff is all good, but its kinda late and as much as I want to write a toString and read all the connections to check, I don't. And I refuse to make a smaller test graph because my keyboard clicks sound louder than normal and the idea of hitting % more than three times really bothers me. Also my hands are really cold despite all these blankets that I'm using right now. So I'm going to stop typing. IDK why I still am honestly. Maybe it was the shitty tasting mustle milk I drank. God it was so Grainy. 
-		 * 
-		 * Greedy should be done but should probably check the comparator
-		 * 
-		 * Need to fix graph generation, made mistake
+		 * Due Date: Monday, Oct8, Midnight
 		 * 
 		 * */
 		
@@ -97,9 +98,6 @@ public class Main {
 
 			}
 
-//			for(Node n : maze.getNodes()) {
-//				n.setContent('.');
-//			}
 			Node start = null;
 			Node end = null;
 			for(int i = 0; i < yLength; i++) {
@@ -114,7 +112,7 @@ public class Main {
 				}
 			}
 			
-			ArrayList<Node> solve = maze.greedyFirst(start);
+			ArrayList<Node> solve = maze.AStar(start);
 			for(Node n : solve) {
 				n.setContent('.');
 			}
