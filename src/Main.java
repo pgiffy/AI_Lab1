@@ -21,19 +21,16 @@ public class Main {
 		 * Breadth First = Not Done
 		 *    A spot in the tree class has been made for breadth first search
 		 *    
-		 * Report = Not Done
+		 * Report = Started
 		 * 
 		 * Due Date: Monday, Oct8, Midnight
 		 * 
 		 * */
 		
 		Scanner scan;
-		String fileOut = "output.txt";
 		String fileName = "open_maze.txt";
-		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
-			out = new PrintWriter(new File(fileOut));
 			scan = new Scanner(mazeFile);
 			int xLength = 0;
 			int yLength = 1;//adjusting for reading first line for x
@@ -129,9 +126,6 @@ public class Main {
 			}
 			System.out.println("Solution Cost: " + solve.size());
 			System.out.println("Expanded Nodes: " + totalExpanded);
-			
-			
-			out.close();
 		}catch(FileNotFoundException e) {
 			System.out.println(e);
 		}
