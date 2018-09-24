@@ -116,15 +116,19 @@ public class Main {
 			for(Node n : solve) {
 				n.setContent('.');
 			}
-
+			
 			//for easy viewing sake
 			//later change this to out.prints to put to output file
+			int totalExpanded = 0;
 			for(int i = 0; i < yLength; i++) {
 				for(int j = 0; j < xLength; j++) {
 					System.out.print(totalMaze[i][j].getContent());
+					if(totalMaze[i][j].visited == true) totalExpanded++;
 				}
 				System.out.println();
 			}
+			System.out.println("Solution Cost: " + solve.size());
+			System.out.println("Expanded Nodes: " + totalExpanded);
 			
 			
 			out.close();
