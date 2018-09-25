@@ -10,6 +10,7 @@ public class Tree {
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
     }
+
 	
 	public void addNode(Node n) {
         nodes.add(n);
@@ -81,6 +82,7 @@ public class Tree {
     			continue;
     		}
     		if(current.getContent() == '*') {
+    			
     			return current.tail;
     		}
     		current.visited = true;

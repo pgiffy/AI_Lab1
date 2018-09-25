@@ -1,5 +1,8 @@
 import java.util.*;
 
+
+//Self build Node class that can hold extra content
+//all names inside are self explanitory.
 public class Node {
 	public boolean visited = false;
 	public ArrayList<Node> tail = new ArrayList<>();
@@ -19,10 +22,7 @@ public class Node {
     	Y = ySpot;
     }
     
-    public int getManhattan() {
-    		return Math.abs(X - end.getX()) + Math.abs(Y - end.getY());
-    	
-    }
+    public int getManhattan() {return Math.abs(X - end.getX()) + Math.abs(Y - end.getY()); }
     public Node getEnd() {return end;}
     public void setEnd(Node e) {end = e;}
     public void setContent(char newContent) {content = newContent;}
