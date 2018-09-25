@@ -15,24 +15,25 @@ public class Main {
 		 * 
 		 * totalMaze is the original grid of maze nodes and maze is the tree
 		 * 
-		 * I started the path class but I didn't write a search yet so I think it is probably missing little things
-		 * I added the txt files so you can just change fileName to change the graph rather than file path
+		 * A* = Done
+		 * Greedy First = Done
+		 * Depth First = Done
+		 * Breadth First = Not Done
+		 *    A spot in the tree class has been made for breadth first search
+		 *    
+		 * Report = Started
 		 * 
-		 * I'm pretty sure this base stuff is all good, but its kinda late and as much as I want to write a toString and read all the connections to check, I don't. And I refuse to make a smaller test graph because my keyboard clicks sound louder than normal and the idea of hitting % more than three times really bothers me. Also my hands are really cold despite all these blankets that I'm using right now. So I'm going to stop typing. IDK why I still am honestly. Maybe it was the shitty tasting mustle milk I drank. God it was so Grainy. 
-		 * 
+		 * Due Date: Monday, Oct8, Midnight
 		 * 
 		 * */
-		
-		
-		
 		
 		Scanner scan;
 		String fileOut = "output.txt";
 		String fileName = "open_maze.txt";
 		PrintWriter out;
+
 		try {
 			File mazeFile = new File(fileName);
-			out = new PrintWriter(new File(fileOut));
 			scan = new Scanner(mazeFile);
 			int xLength = 0;
 			int yLength = 1;//adjusting for reading first line for x
@@ -48,13 +49,12 @@ public class Main {
 			int lineIter = 0;
 			
 			scan = new Scanner(mazeFile);//reseting scanner to the top
-			Node[][] totalMaze = new Node[xLength][yLength];
+			Node[][] totalMaze = new Node[yLength][xLength];
 			while(scan.hasNext()) {
 				String currentLine = scan.nextLine();
 				perLineIter = 0;
 				for(char con : currentLine.toCharArray()) {
-					System.out.println(idIter);
-					totalMaze[perLineIter][lineIter] = new Node(idIter, con, perLineIter, lineIter);
+					totalMaze[lineIter][perLineIter] = new Node(idIter, con, perLineIter, lineIter);
 					idIter++;
 					perLineIter++;
 				}
@@ -63,63 +63,52 @@ public class Main {
 			}
 			
 			Tree maze = new Tree();
-			int startX = 0;
-			int startY = 0;
-			for(int i = 0; i < yLength; i++) {
-				for(int j = 0; j < xLength; j++) {
-					if(totalMaze[j][i].getContent()=='P') {
-						startX = j;
-						startY = i;
+			for(int y = 0; y < yLength; y++) {
+				for(int x = 0; x < xLength; x++) {
+					Node current = totalMaze[y][x];
+					try {
+						if((totalMaze[y+1][x].getContent() == ' ' || totalMaze[y+1][x].getContent() == '*') && totalMaze[y+1][x] != null) {
+							Edge e = new Edge(current, totalMaze[y+1][x]);
+							totalMaze[y+1][x].addParent(current);
+							maze.addEdge(e);
+							maze.addNode(totalMaze[y+1][x]);
+						}
+						if((totalMaze[y][x+1].getContent() == ' ' || totalMaze[y][x+1].getContent() == '*') && totalMaze[y][x+1] != null) {
+							Edge e = new Edge(current, totalMaze[y][x+1]);
+							totalMaze[y][x-1].addParent(current);
+							maze.addEdge(e);
+							maze.addNode(totalMaze[y][x+1]);
+						}
+						if((totalMaze[y-1][x].getContent() == ' ' || totalMaze[y-1][x].getContent() == '*') && totalMaze[y-1][x] != null) {
+							Edge e = new Edge(current, totalMaze[y-1][x]);
+							totalMaze[y-1][x].addParent(current);
+							maze.addEdge(e);
+							maze.addNode(totalMaze[y-1][x]);
+						}
+						if((totalMaze[y][x-1].getContent() == ' ' || totalMaze[y][x-1].getContent() == '*') && totalMaze[y][x-1] != null) {
+							Edge e = new Edge(current, totalMaze[y][x-1]);
+							totalMaze[y][x-1].addParent(current);
+							maze.addEdge(e);
+							maze.addNode(totalMaze[y][x-1]);
+						}
+					}catch(ArrayIndexOutOfBoundsException e) {
+
 					}
 				}
+
 			}
-			Queue<Node> toCheck = new LinkedList<>();
-			maze.addNode(totalMaze[startX][startY]);
-			toCheck.add(totalMaze[startX][startY]);
-			while(!toCheck.isEmpty()) {
-				Node current = toCheck.remove();
-				int currentX = current.getX();
-				int currentY = current.getY();
-				if((totalMaze[currentX+1][currentY].getContent() == ' ' || totalMaze[currentX+1][currentY].getContent() == '*') && !current.getParents().contains(totalMaze[currentX+1][currentY])) {//right spot
-					if(!toCheck.contains(totalMaze[currentX+1][currentY])) {toCheck.add(totalMaze[currentX+1][currentY]);}
-					Edge e = new Edge(current, totalMaze[currentX+1][currentY]);
-					totalMaze[currentX+1][currentY].addParent(current);
-					maze.addEdge(e);
-					maze.addNode(totalMaze[currentX+1][currentY]);
-				}
-				if((totalMaze[currentX][currentY+1].getContent() == ' ' || totalMaze[currentX][currentY+1].getContent() == '*') && !current.getParents().contains(totalMaze[currentX][currentY+1])) {//bottom spot
-					if(!toCheck.contains(totalMaze[currentX][currentY+1])) {toCheck.add(totalMaze[currentX][currentY+1]);}
-					Edge e = new Edge(current, totalMaze[currentX][currentY+1]);
-					totalMaze[currentX][currentY-1].addParent(current);
-					//totalMaze[currentX][currentY+1].addAllParents(current.getParents());
-					maze.addEdge(e);
-					maze.addNode(totalMaze[currentX][currentY+1]);
-				}
-				if((totalMaze[currentX-1][currentY].getContent() == ' ' || totalMaze[currentX-1][currentY].getContent() == '*') && !current.getParents().contains(totalMaze[currentX-1][currentY])) {//left spot
-					if(!toCheck.contains(totalMaze[currentX-1][currentY])) {toCheck.add(totalMaze[currentX-1][currentY]);}
-					Edge e = new Edge(current, totalMaze[currentX-1][currentY]);
-					totalMaze[currentX-1][currentY].addParent(current);
-					maze.addEdge(e);
-					maze.addNode(totalMaze[currentX-1][currentY]);
-				}
-				if((totalMaze[currentX][currentY-1].getContent() == ' ' || totalMaze[currentX][currentY-1].getContent() == '*') && !current.getParents().contains(totalMaze[currentX][currentY-1])) {//top spot
-					if(!toCheck.contains(totalMaze[currentX][currentY-1])) {toCheck.add(totalMaze[currentX][currentY-1]);}
-					Edge e = new Edge(current, totalMaze[currentX][currentY-1]);
-					totalMaze[currentX][currentY-1].addParent(current);
-					maze.addEdge(e);
-					maze.addNode(totalMaze[currentX][currentY-1]);
-				}
-				
-				
-			}
-			
-//			for(Node n : maze.getNodes()) {
-//				n.setContent('.');
-//			}
+
 			Node start = null;
+			Node end = null;
 			for(int i = 0; i < yLength; i++) {
 				for(int j = 0; j < xLength; j++) {
-					if(totalMaze[j][i].getContent() == 'P') { start = totalMaze[j][i]; }
+					if(totalMaze[i][j].getContent() == 'P') { start = totalMaze[i][j]; }
+					if(totalMaze[i][j].getContent() == '*') { end = totalMaze[i][j]; }
+				}
+			}
+			for(int i = 0; i < yLength; i++) {
+				for(int j = 0; j < xLength; j++) {
+					totalMaze[i][j].setEnd(end);
 				}
 			}
 			
@@ -134,18 +123,24 @@ public class Main {
 			for(Node n : solve) {
 				n.setContent('.');
 			}
-		
+			
+//			ArrayList<Node> solve = maze.AStar(start);
+//			for(Node n : solve) {
+//				n.setContent('.');
+//			}
+			
 			//for easy viewing sake
 			//later change this to out.prints to put to output file
+			int totalExpanded = 0;
 			for(int i = 0; i < yLength; i++) {
 				for(int j = 0; j < xLength; j++) {
-					System.out.print(totalMaze[j][i].getContent());
+					System.out.print(totalMaze[i][j].getContent());
+					if(totalMaze[i][j].visited == true) totalExpanded++;
 				}
 				System.out.println();
 			}
-			
-			
-			out.close();
+			System.out.println("Solution Cost: " + solve.size());
+			System.out.println("Expanded Nodes: " + totalExpanded);
 		}catch(FileNotFoundException e) {
 			System.out.println(e);
 		}

@@ -1,5 +1,7 @@
 import java.util.*;
 
+import org.omg.CORBA.Current;
+
 public class Tree {
 	ArrayList<Node> nodes = new ArrayList<>();
 	ArrayList<Edge> edges = new ArrayList<>();
@@ -42,6 +44,9 @@ public class Tree {
     	
     }
     
+    MyComparator compare = new MyComparator();
+    MyComparator2 compare2 = new MyComparator2();
+    
     public ArrayList<Node> depthFirst(Node start) {
     	Stack<Node> stack = new Stack<>();
     	stack.add(start);
@@ -67,7 +72,7 @@ public class Tree {
     }
     
     public ArrayList<Node> breadthFirst(Node start) {
-    	LinkedList<Node> queue = new LinkedList<Node>();
+    	LinkedList<Node> queue = new LinkedList<>();
     	queue.add(start);
     	Node current;
     	while(!queue.isEmpty()) {
@@ -81,7 +86,7 @@ public class Tree {
     		current.visited = true;
     		current.tail.add(current);
     		for(Edge e : current.getOutgoingEdges()) {
-    			
+    			if(e.getToNode().tail.size() <= current.tail.size() && e.getToNode().tail.size() != 0) { continue; } // has to here to remove possiblity of two equal length lines
     			e.getToNode().tail.addAll(removeDuplicates(current.tail));
     			queue.add(e.getToNode());
     		}
@@ -89,4 +94,67 @@ public class Tree {
     	}
     	return null;
     }
+
+    public ArrayList<Node> greedyFirst(Node start) {
+    	PriorityQueue<Node> pq = new PriorityQueue<>(compare);
+    	pq.add(start);
+    	Node current;
+    	while(!pq.isEmpty()) {
+    		current = pq.poll();
+    		if(current.visited == true) {
+    			continue;
+    		}
+    		if(current.getContent() == '*') {
+    			return current.tail;
+    		}
+    		current.visited = true;
+    		current.tail.add(current);
+    		for(Edge e : current.getOutgoingEdges()) {
+    			e.getToNode().tail.addAll(removeDuplicates(current.tail));
+    			pq.add(e.getToNode());
+    		}
+    		
+    	}
+    	return null;
+    }
+    
+    public ArrayList<Node> AStar(Node start){
+    	PriorityQueue<Node> pq = new PriorityQueue<>(compare2);
+    	pq.add(start);
+    	Node current;
+    	while(!pq.isEmpty()) {
+    		current = pq.poll();
+    		if(current.visited == true) {
+    			continue;
+    		}
+    		if(current.getContent() == '*') {
+    			return current.tail;
+    		}
+    		current.visited = true;
+    		current.tail.add(current);
+    		for(Edge e : current.getOutgoingEdges()) {
+    			if(e.getToNode().tail.size() <= current.tail.size() && e.getToNode().tail.size() != 0) { continue; } // has to here to remove possiblity of two equal length lines
+    			e.getToNode().tail.addAll(removeDuplicates(current.tail));
+    			pq.add(e.getToNode());
+    		}
+    	}
+    	return null;
+    }
+    
+}
+
+class MyComparator implements Comparator<Node>{
+	public int compare(Node a, Node b) {
+		Integer atail = a.getManhattan();
+		Integer btail = b.getManhattan();
+		return atail.compareTo(btail);
+	}
+}
+
+class MyComparator2 implements Comparator<Node>{
+	public int compare(Node a, Node b) {
+		Integer aR = a.getManhattan() + a.tail.size();
+		Integer bR = b.getManhattan() + b.tail.size();
+		return aR.compareTo(bR);
+	}
 }
