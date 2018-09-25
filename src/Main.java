@@ -28,7 +28,7 @@ public class Main {
 		
 		Scanner scan;
 		String fileOut = "output.txt";
-		String fileName = "test_maze.txt";
+		String fileName = "open_maze.txt";
 		PrintWriter out;
 		try {
 			File mazeFile = new File(fileName);
@@ -123,7 +123,13 @@ public class Main {
 				}
 			}
 			
-			ArrayList<Node> solve = maze.depthFirst(start);
+//			ArrayList<Node> solve = maze.depthFirst(start);
+//			System.out.println(solve);
+//			for(Node n : solve) {
+//				n.setContent('.');
+//			}
+			
+			ArrayList<Node> solve = maze.breadthFirst(start);
 			System.out.println(solve);
 			for(Node n : solve) {
 				n.setContent('.');

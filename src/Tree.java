@@ -66,5 +66,27 @@ public class Tree {
     	return null;
     }
     
-	
+    public ArrayList<Node> breadthFirst(Node start) {
+    	LinkedList<Node> queue = new LinkedList<Node>();
+    	queue.add(start);
+    	Node current;
+    	while(!queue.isEmpty()) {
+    		current = queue.poll();
+    		if(current.visited == true) {
+    			continue;
+    		}
+    		if(current.getContent() == '*') {
+    			return current.tail;
+    		}
+    		current.visited = true;
+    		current.tail.add(current);
+    		for(Edge e : current.getOutgoingEdges()) {
+    			
+    			e.getToNode().tail.addAll(removeDuplicates(current.tail));
+    			queue.add(e.getToNode());
+    		}
+    		
+    	}
+    	return null;
+    }
 }
